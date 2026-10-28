@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light only">
+<title>Controle de Maturação Lamas</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Roboto,sans-serif}
+:root{--me:#2A1F1A;--mm:#3D2B1F;--du:#D4B98C;--bg:#F5F0EA;--ro:#6A4BC4;--ve:#A82020;--vd:#2E7D32;--am:#ED6C02;--ci:#757575;--tx:#2C2C2C;--li:#E0D5C1;color-scheme:light only;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{background:var(--bg);color:var(--tx);min-height:100vh;padding-bottom:40px}
+button,input,select,textarea{font-size:16px}
+button{color:var(--me)}
+.cab{background:linear-gradient(135deg,var(--me),var(--mm));color:var(--bg);padding:20px 20px 42px;border-radius:0 0 20px 20px;box-shadow:0 4px 12px rgba(0,0,0,.2);position:relative;overflow:hidden}
+.cab::after{content:"Coordenador de Maturação · Marcos A.P";position:absolute;left:20px;right:20px;bottom:12px;text-align:center;font-size:12px;line-height:1;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:rgba(212,185,140,.55);border-top:1px solid rgba(212,185,140,.18);padding-top:10px;pointer-events:none;user-select:none}
+.cc{max-width:650px;margin:0 auto;position:relative;z-index:1}
+.la{display:flex;align-items:center;gap:14px;margin-bottom:10px}
+.logo{width:52px;height:52px;background:var(--du);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:26px}
+.titulo{font-size:22px;font-weight:700;color:var(--du);line-height:1.2}
+.sub{font-size:14px;color:#E0D2B8}
+.op{display:flex;align-items:center;gap:8px;margin:8px 0 14px;font-size:14px;color:#E0D2B8;cursor:pointer}
+.dot{width:10px;height:10px;background:#4CAF50;border-radius:50%}
+.bt{display:flex;gap:8px;flex-wrap:wrap}
+.bh{padding:10px 14px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;border:1px solid var(--du);background:transparent;color:var(--du)}
+.bh.p{background:var(--du);color:var(--me);border:0}
+.ct{max-width:650px;margin:18px auto 0;padding:0 15px}
+.mg{display:grid;grid-template-columns:repeat(auto-fit,minmax(105px,1fr));gap:8px;margin-bottom:12px}
+.cm{background:#fff;padding:10px;border-radius:10px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,.05)}
+.cm b{display:block;font-size:19px;color:var(--me)}.cm span{font-size:12px;color:#666}
+.al{border-radius:12px;padding:10px 14px;margin-bottom:10px;font-size:14px}
+.al.r{background:#EDE7F9;border:1px solid #CFC2EF;color:#4B33A0;cursor:pointer}
+.al.a{background:#FFF3E0;border:1px solid #FFD9A8;color:#8A4B00}
+.fx{background:#fff;border-radius:12px;padding:14px;margin-bottom:14px;box-shadow:0 2px 6px rgba(0,0,0,.05);display:flex;flex-direction:column;gap:8px}
+.fl{display:flex;gap:8px;flex-wrap:wrap}
+.fx select,.fx input,.in input,.mo input,.mo select,.mo textarea{padding:10px;border:1px solid var(--li);border-radius:8px;background:#fff;color:var(--tx);width:100%}
+.fl select{flex:1;min-width:120px;width:auto}
+.bc{background:#fff;border-radius:12px;padding:18px;margin-bottom:15px;border-left:6px solid var(--ro);box-shadow:0 2px 6px rgba(0,0,0,.05)}
+.bp0{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.nt{background:var(--me);color:var(--du);font-weight:700;padding:4px 12px;border-radius:6px;font-size:16px}
+.sb{padding:4px 10px;border-radius:12px;font-size:12px;font-weight:700;text-transform:uppercase}
+.li{display:flex;justify-content:space-between;gap:10px;font-size:14px;padding:3px 0}
+.li .l{color:var(--ci)}.li .v{text-align:right}
+.bf{height:12px;background:#EEE6D8;border-radius:6px;overflow:hidden;margin-top:10px}
+.bf i{display:block;height:100%}
+.bg{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.ba{padding:8px 11px;border-radius:7px;border:1px solid var(--li);background:#fff;font-size:13px;font-weight:600;cursor:pointer;color:var(--me)}
+.ba.d{background:var(--me);color:var(--du);border-color:var(--me)}.ba.x{color:var(--ve);border-color:#E8B9B9}
+details{margin-top:12px;border-top:1px solid var(--li);padding-top:8px;font-size:13px}
+summary{cursor:pointer;font-weight:600;color:var(--mm)}
+.ci{padding:5px 0;border-bottom:1px dashed var(--li)}
+.ov{position:fixed;inset:0;background:rgba(30,20,14,.65);display:flex;align-items:flex-end;justify-content:center;z-index:9;padding-top:env(safe-area-inset-top,0px)}
+.mo{background:#fff;width:100%;max-width:560px;max-height:calc(100vh - 110px);max-height:calc(100dvh - 110px - env(safe-area-inset-top,0px));overflow:auto;border-radius:18px 18px 0 0;padding:0 16px 16px;border-top:6px solid var(--mm)}
+@media(min-width:700px){.ov{align-items:center}.mo{border-radius:14px;max-height:90vh}}
+.mb{position:sticky;top:0;background:#fff;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid var(--li);margin-bottom:8px}
+.mb h2{font-size:19px;color:var(--mm)}
+.mf{position:sticky;bottom:0;background:#fff;padding:10px 0 calc(10px + env(safe-area-inset-bottom,0px));margin-top:12px;border-top:1px solid var(--li)}
+.mo label{display:block;margin:10px 0 4px;font-size:13px;font-weight:700;color:var(--mm)}
+.bpr{padding:11px 16px;border-radius:8px;border:0;background:var(--me);color:var(--du);font-weight:700;cursor:pointer;width:100%}
+.bpr.pe{background:var(--ve);color:#fff}
+.bs{padding:8px 12px;border-radius:7px;border:1px solid var(--li);background:#fff;color:var(--me);font-weight:600;cursor:pointer}
+.er{color:var(--ve);font-weight:700;font-size:14px;margin:8px 0}
+.rb{background:var(--bg);border-radius:10px;padding:10px;margin-bottom:8px;font-size:14px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+#t{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--me);color:var(--du);padding:10px 18px;border-radius:24px;z-index:20;display:none;max-width:90vw;font-size:14px}
+.vz{padding:30px;text-align:center;color:#666}
+</style>
+</head>
+<body>
+<header class="cab"><div class="cc">
+  <div class="la"><div class="logo">🥃</div><div><div class="titulo">Controle de Maturação Lamas</div><div class="sub">Adega Artesanal</div></div></div>
+  <div class="op" id="op"></div>
+  <div class="bt">
+    <button class="bh p" data-a="novo">+ Novo Barril</button>
+    <button class="bh" data-a="lote">Gerar Lote</button>
+    <button class="bh" data-a="rel">📊 Totais por Bebida</button>
+    <button class="bh" data-a="lix" id="blix"></button>
+    <button class="bh" data-a="bkp">Backup</button>
+    <button class="bh" data-a="estq">Estoque de garrafas</button>
+    <button class="bh" data-a="cont">Movimentação (contabilidade)</button>
+  </div>
+</div></header>
+<div class="ct">
+  <div class="mg" id="met"></div>
+  <div id="al"></div>
+  <div class="fx">
+    <input id="q" placeholder="Buscar por nº, madeira ou bebida…">
+    <div class="fl"><select id="fb"></select><select id="fm"></select>
+      <select id="fs"><option value="">Todos os status</option><option>Cheio</option><option>Parcial</option><option>Vazio</option><option>Pronto</option><option>Manutenção</option><option>Estragado</option></select></div>
+  </div>
+  <div id="cnt" style="margin-bottom:10px;font-size:14px;color:var(--mm)"></div>
+  <div id="lista"></div>
+</div>
+<div id="m"></div><div id="t" role="status"></div>
+<script>
+const $=s=>document.querySelector(s);
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const LS=k=>{try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}};
+const SV=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+const hoje=()=>{const d=new Date(),p=x=>String(x).padStart(2,"0");return p(d.getDate())+"/"+p(d.getMonth()+1)+"/"+d.getFullYear()};
+const pd=s=>{const m=/^(\d{2})\/(\d{2})\/(\d{4})$/.exec((s||"").trim());if(!m)return null;const[,d,mo,a]=m.map(Number),x=new Date(a,mo-1,d);return x.getFullYear()==a&&x.getMonth()==mo-1&&x.getDate()==d?x.getTime():null};
+const mask=v=>{const d=v.replace(/\D/g,"").slice(0,8);return d.length>4?d.slice(0,2)+"/"+d.slice(2,4)+"/"+d.slice(4):d.length>2?d.slice(0,2)+"/"+d.slice(2):d};
+const L=c=>(c/100).toLocaleString("pt-BR",{maximumFractionDigits:2})+" L";
+const toCl=s=>{const n=parseFloat(String(s).replace(",","."));return isFinite(n)?Math.round(n*100):NaN};
+const fd=t=>new Date(t).toLocaleDateString("pt-BR");
+const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const DM=["Carvalho Americano","Carvalho Francês","Bálsamo","Amburana","Jequitibá Rosa","Seis Madeiras","Pau Brasil","Sassafrás","Putumuju","Ipê","Eucalipto","Grápia","Castanheira","Angico","Cumaru"];
+const DB=["Whisky Lamas","Whisky Bourbon","Whisky B","Whisky U","Whisky Turfado","Extrato de Carvalho","Cachaça","Rum"];
+const COR={Cheio:"#2E7D32",Parcial:"#ED6C02",Vazio:"#A82020",Pronto:"#6A4BC4",Estragado:"#333333",Manutenção:"#546E7A"};
+const ME="marcos@exemplo.com";
+const mk=(n,mad,beb,cap,v,enc,me,ai,aa)=>{const b={id:uid(),n,mad,beb,cap,m:[],enc,meses:me,abvI:ai,abvA:aa,obs:"",est:false,man:false,ex:false};if(v>0)b.m.push({id:uid(),t:"inicial",d:enc,ts:pd(enc),dl:v,o:"Saldo inicial",p:ME,em:0});return b};
+let B=LS("lb3")||[mk("BAR-001","Carvalho Americano","Whisky Bourbon",20000,18500,"10/01/2024",24,40,40),mk("BAR-002","Jequitibá Rosa","Whisky Lamas 2 anos",20000,18000,"20/02/2025",36,55,52),mk("BAR-003","Bálsamo","",20000,0,"05/03/2025",12,"",""),mk("BAR-004","Amburana","Cachaça",10000,10000,"01/11/2024",24,48,48)];
+let OP=LS("lb3op")||"",PW=LS("lb3pw"),NX=null,MV=null,ED=null;
+let E=LS("lb3e")||[];
+B=B.filter(b=>!b.ex||Date.now()-(b.exTs||0)<30*864e5);
+const save=()=>SV("lb3",B);
+const get=id=>B.find(b=>b.id==id);
+const vol=b=>b.m.reduce((s,x)=>s+x.dl,0);
+const pi=b=>{const i=pd(b.enc),n=+b.meses;if(i===null||!(n>0))return{};const d=new Date(i);d.setMonth(d.getMonth()+Math.round(n));const e=d.getTime(),dias=Math.ceil((e-Date.now())/864e5);return{e,dias,ok:dias<=0}};
+const st=b=>b.est?"Estragado":b.man?"Manutenção":vol(b)<=0?"Vazio":pi(b).ok?"Pronto":vol(b)>=b.cap?"Cheio":"Parcial";
+const addM=(b,t,dl,o,d)=>{const dd=d||hoje();b.m.push({id:uid(),t,d:dd,ts:pd(dd),dl,o:o||"",p:OP,em:Date.now()})};
+const TX={inicial:"Saldo inicial",entrada:"Entrada",saida:"Saída",zerou:"ZEROU",ajuste:"Ajuste",estado:"Status",tanoeiro:"Tanoeiro / reforma",perda:"Perda (evaporação)",teor:"Teor alcoólico",engarrafamento:"Engarrafamento"};
+const TIPOS=Object.keys(TX);
+function toast(t){const e=$("#t");e.textContent=t;e.style.display="block";clearTimeout(toast.i);toast.i=setTimeout(()=>e.style.display="none",2600)}
+function M(t,h,fixo){$("#m").innerHTML=`<div class="ov" data-a="bg"><div class="mo" role="dialog"><div class="mb"><h2>${t}</h2>${fixo?"":`<button class="bs" data-a="x" aria-label="Fechar">✕</button>`}</div>${h}${fixo?"":`<div class="mf"><button class="bs" style="width:100%" data-a="x">← Voltar</button></div>`}</div></div>`}
+const X=()=>{$("#m").innerHTML=""};
+const ER=t=>{$("#f_e").textContent=t};
+function lst(a,b){return [...new Set([...a,...b].filter(Boolean))].sort((x,y)=>x.localeCompare(y,"pt-BR"))}
+function dl(id,a){return `<datalist id="${id}">${a.map(x=>`<option value="${esc(x)}">`).join("")}</datalist>`}
+function fill(sel,lb,o,cur){const e=$(sel);e.innerHTML=`<option value="">${lb}</option>`+o.map(x=>`<option>${esc(x)}</option>`).join("");e.value=cur}
+
+function draw(){
+  const at=B.filter(b=>!b.ex),q=$("#q").value.trim().toLowerCase(),fs=$("#fs").value,fb=$("#fb").value,fm=$("#fm").value;
+  fill("#fb","Todas as bebidas",lst([],at.map(b=>b.beb)),fb);fill("#fm","Todas as madeiras",lst([],at.map(b=>b.mad)),fm);
+  const c={Cheio:0,Parcial:0,Vazio:0,Pronto:0,Manutenção:0,Estragado:0};let lit=0;
+  at.forEach(b=>{c[st(b)]++;if(!b.est)lit+=Math.max(0,vol(b))});
+  $("#met").innerHTML=[["Total",at.length],["Cheios",c.Cheio],["Parciais",c.Parcial],["Vazios",c.Vazio],["Prontos",c.Pronto],["Manutenção",c.Manutenção],["Estragados",c.Estragado],["Em maturação",L(lit)]].map(([l,v])=>`<div class="cm"><b>${v}</b><span>${l}</span></div>`).join("");
+  $("#blix").textContent="Lixeira ("+(B.length-at.length)+")";
+  $("#op").innerHTML=`<i class="dot"></i>Operador: <b>${esc(OP||"—")}</b> <u>trocar</u>`;
+  const pr=at.filter(b=>st(b)=="Pronto"),px=at.filter(b=>{const i=pi(b);return !b.est&&!b.man&&vol(b)>0&&i.e&&i.dias>0&&i.dias<=30}).sort((a,b)=>pi(a).dias-pi(b).dias);
+  $("#al").innerHTML=(pr.length?`<div class="al r" data-a="fpro"><b>🔔 ${pr.length} ${pr.length==1?"barril pronto":"barris prontos"} (maturação completa):</b> ${pr.map(b=>esc(b.n)).join(", ")}<br><small>Toque para filtrar.</small></div>`:"")+(px.length?`<div class="al a">⏳ Ficam prontos em até 30 dias: ${px.map(b=>esc(b.n)+" ("+pi(b).dias+" dias)").join(", ")}</div>`:"");
+  const l=at.filter(b=>(!q||b.n.toLowerCase().includes(q)||b.mad.toLowerCase().includes(q)||b.beb.toLowerCase().includes(q))&&(!fs||st(b)==fs)&&(!fb||b.beb==fb)&&(!fm||b.mad==fm)).sort((a,b)=>a.n.localeCompare(b.n,"pt-BR",{numeric:true}));
+  const sf=l.filter(b=>!b.est).reduce((s,b)=>s+Math.max(0,vol(b)),0);
+  $("#cnt").innerHTML=`${l.length} de ${at.length} barris · <b>Soma dos filtrados: ${L(sf)}</b>`;
+  $("#lista").innerHTML=l.map(card).join("")||`<div class="vz">Nenhum barril encontrado com esses filtros.</div>`;
+}
+function card(b){
+  const s=st(b),v=Math.max(0,vol(b)),p=Math.min(100,Math.round(v/b.cap*100)),c=COR[s],i=pi(b),id=b.id;
+  const mv=[...b.m].sort((x,y)=>(y.ts||0)-(x.ts||0)||(y.em||0)-(x.em||0)),u=mv[0];
+  const mat=i.e?(i.ok?`Pronto desde ${fd(i.e)}`:`Pronto em ${fd(i.e)} (faltam ${i.dias} dias)`):"Sem prazo definido";
+  const cad=mv.map(m=>`<div class="ci"><b>${esc(m.d)}</b> — ${TX[m.t]||m.t}${m.dl?" "+L(Math.abs(m.dl)):""}${m.o?" · "+esc(m.o):""} <small style="color:#888">(${esc(m.p||"Anônimo")})</small></div>`).join("");
+  return `<div class="bc" style="border-left-color:${c}">
+  <div class="bp0"><span class="nt">${esc(b.n)}</span><span class="sb" style="background:${s=="Estragado"?"#333":c+"22"};color:${s=="Estragado"?"#fff":c}">${s}</span></div>
+  <div class="li"><span class="l">Madeira:</span><span class="v">${esc(b.mad)}</span></div>
+  <div class="li"><span class="l">Conteúdo:</span><span class="v" style="font-weight:700;color:var(--me)">${esc(b.beb||"Vazio")}</span></div>
+  <div class="li"><span class="l">Teor alcoólico:</span><span class="v">Ini: ${b.abvI||"--"}% | Atu: ${b.abvA||"--"}%</span></div>
+  ${b.tosta?`<div class="li"><span class="l">Tosta:</span><span class="v">${esc(b.tosta)}</span></div>`:""}${(()=>{const tn=(+b.tanoAnt||0)+b.m.filter(x=>x.t=="tanoeiro").length;return tn?`<div class="li"><span class="l">Tanoeiro/reforma:</span><span class="v">${tn} ${tn==1?"vez":"vezes"}</span></div>`:""})()}
+  ${b.gal||b.prat?`<div class="li"><span class="l">Local:</span><span class="v">${esc([b.gal,b.prat].filter(Boolean).join(" · "))}</span></div>`:""}${+b.abvA>0&&vol(b)>0?`<div class="li"><span class="l">Álcool puro:</span><span class="v">${(vol(b)/100*b.abvA/100).toLocaleString("pt-BR",{maximumFractionDigits:2})} L</span></div>`:""}${(()=>{const pe=b.m.filter(x=>x.t=="perda").reduce((s,x)=>s-x.dl,0),en=b.m.filter(x=>x.t=="inicial"||x.t=="entrada").reduce((s,x)=>s+x.dl,0);return pe>0?`<div class="li"><span class="l">Perda (evaporação):</span><span class="v">${L(pe)}${en>0?" ("+(pe/en*100).toFixed(1).replace(".",",")+"%)":""}</span></div>`:""})()}
+  <div class="li"><span class="l">Maturação:</span><span class="v" style="color:${i.ok?"var(--ro)":"inherit"};font-weight:${i.ok?700:400}">${b.meses||0} meses · ${mat}</span></div>
+  <div class="li"><span class="l">Último lançamento:</span><span class="v">${u?esc(u.d)+" por "+esc(u.p||"—"):"—"}</span></div>
+  ${b.obs?`<div class="li"><span class="l">Obs.:</span><span class="v"><i>${esc(b.obs)}</i></span></div>`:""}
+  <div class="bf"><i style="width:${p}%;background:${c}"></i></div>
+  <div style="font-size:12px;color:#666;text-align:right">${L(v)} de ${L(b.cap)} (${p}%)</div>
+  <div class="bg">
+    <button class="ba" data-a="mov" data-t="ent" data-id="${id}">Entrada</button>
+    <button class="ba" data-a="mov" data-t="sai" data-id="${id}">Saída</button>
+    <button class="ba d" data-a="mov" data-t="zer" data-id="${id}">Zerou Barril</button>
+    <button class="ba" data-a="tan" data-id="${id}">🔧 Tanoeiro</button>
+    <button class="ba" data-a="op" data-t="eng" data-id="${id}">Engarrafar</button><button class="ba" data-a="op" data-t="afe" data-id="${id}">Aferir nível</button><button class="ba" data-a="op" data-t="teo" data-id="${id}">Teor %</button>
+    <button class="ba" data-a="man" data-id="${id}">${b.man?"Tirar manutenção":"Manutenção"}</button>
+    <button class="ba x" data-a="est" data-id="${id}">${b.est?"Desmarcar estragado":"Estragado"}</button>
+    <button class="ba" data-a="edit" data-id="${id}">✏️ Editar</button>
+    <button class="ba x" data-a="del" data-id="${id}">Excluir</button>
+  </div>
+  <details><summary>📋 Caderno de movimentações (${b.m.length})</summary>${cad||"<div class='ci'>Nenhum lançamento.</div>"}</details></div>`;
+}
+function movF(id,t){
+  const b=get(id);MV={id,t};const v=Math.max(0,vol(b));
+  M({ent:"Entrada de líquido",sai:"Saída de líquido",zer:"Zerar barril"}[t]+" — "+esc(b.n),`<div class="rb">Volume atual: <b>${L(v)}</b> de ${L(b.cap)}</div>
+  <label>Data (DD/MM/AAAA)</label><input id="f_d" inputmode="numeric" maxlength="10" value="${hoje()}">
+  ${t=="zer"?`<p style="margin-top:10px">O barril será esvaziado (${L(v)}).</p>`:`<label>Litros</label><input id="f_l" inputmode="decimal">`}
+  <label>Observação (opcional)</label><input id="f_o"><div class="er" id="f_e"></div><button class="bpr" data-a="okmov">Confirmar</button>`);
+}
+function okMov(){
+  const b=get(MV.id),t=MV.t,d=$("#f_d").value,v=Math.max(0,vol(b));
+  if(pd(d)===null)return ER("Data inválida. Use DD/MM/AAAA.");
+  const o=$("#f_o").value.trim();
+  if(t=="zer"){if(v<=0)return ER("Este barril já está vazio.");addM(b,"zerou",-v,o,d)}
+  else{const c=toCl($("#f_l").value);if(!(c>0))return ER("Informe os litros (maior que zero).");
+    if(t=="ent"){if(v+c>b.cap)return ER("Excede a capacidade. Cabem mais "+L(b.cap-v)+".");addM(b,"entrada",c,o,d);if(v==0)b.enc=d}
+    else{if(c>v)return ER("Saída maior que o volume atual ("+L(v)+").");addM(b,"saida",-c,o,d)}}
+  save();X();draw();toast("Movimentação lançada.");
+}
+function flag(id,k,on,off){const b=get(id);b[k]=!b[k];addM(b,"estado",0,b[k]?on:off);save();draw();toast(b[k]?on:off)}
+function barF(id){
+  const b=id?get(id):null;ED=id;
+  M(b?"Editar barril":"Novo barril",`<div class="two"><div><label>Número</label><input id="f_n" value="${esc(b?b.n:"")}" placeholder="BAR-005"></div><div><label>Capacidade (L)</label><input id="f_c" inputmode="decimal" value="${b?b.cap/100:200}"></div></div>
+  <label>Madeira (escolha ou digite qualquer uma)</label><input id="f_m" list="dm" value="${esc(b?b.mad:"")}">${dl("dm",lst(DM,B.map(x=>x.mad)))}
+  <label>Bebida (escolha ou digite qualquer uma)</label><input id="f_b" list="db" value="${esc(b?b.beb:"")}">${dl("db",lst(DB,B.map(x=>x.beb)))}
+  <label>${b?"Volume atual (L)":"Volume inicial (L)"}</label><input id="f_v" inputmode="decimal" value="${b?Math.max(0,vol(b))/100:0}">
+  <div class="two"><div><label>Teor inicial (%)</label><input id="f_ai" inputmode="decimal" value="${b?b.abvI:""}"></div><div><label>Teor atual (%)</label><input id="f_aa" inputmode="decimal" value="${b?b.abvA:""}"></div></div>
+  <div class="two"><div><label>Data de enchimento</label><input id="f_en" inputmode="numeric" maxlength="10" value="${b?esc(b.enc):hoje()}"></div><div><label>Maturação (meses)</label><input id="f_me" inputmode="numeric" value="${b?b.meses:24}"></div></div>
+  <div class="two"><div><label>Galpão</label><input id="f_g" list="dg" value="${esc(b?b.gal||"":"")}" placeholder="Ex.: Galpão 1">${dl("dg",lst([],B.map(x=>x.gal)))}</div><div><label>Prateleira / posição</label><input id="f_pr" value="${esc(b?b.prat||"":"")}" placeholder="Ex.: B3"></div></div>
+  <div class="two"><div><label>Tosta</label><input id="f_t" list="dt" placeholder="1, 2, 3 ou 4" value="${esc(b?b.tosta||"":"")}">${dl("dt",["1","2","3","4"])}</div><div><label>Vezes no tanoeiro (antes do app)</label><input id="f_ta" inputmode="numeric" value="${b?b.tanoAnt||0:0}"></div></div>
+  <label>Observações</label><input id="f_o" value="${esc(b?b.obs:"")}"><div class="er" id="f_e"></div><button class="bpr" data-a="oked">Salvar barril</button>`);
+}
+function okEd(){
+  const n=$("#f_n").value.trim(),cap=toCl($("#f_c").value),v=toCl($("#f_v").value),mad=$("#f_m").value.trim().replace(/\s+/g," "),beb=$("#f_b").value.trim().replace(/\s+/g," "),enc=$("#f_en").value.trim(),me=$("#f_me").value.trim();
+  const all=B.filter(b=>!b.ex).map(b=>b.mad),allb=B.filter(b=>!b.ex).map(b=>b.beb);
+  if(!n)return ER("Informe o número do barril.");
+  if(B.some(b=>!b.ex&&b.n.toLowerCase()==n.toLowerCase()&&b.id!=ED))return ER("O barril "+n+" já existe.");
+  if(!mad)return ER("Informe a madeira.");
+  if(!(cap>0))return ER("Capacidade deve ser maior que zero.");
+  if(!(v>=0)||v>cap)return ER("Volume deve estar entre 0 e a capacidade.");
+  if(enc&&pd(enc)===null)return ER("Data de enchimento inválida. Use DD/MM/AAAA.");
+  const canon=(x,a)=>a.find(y=>y.toLowerCase()==x.toLowerCase())||x;
+  const dd={n,cap,mad:canon(mad,lst(DM,all)),beb:canon(beb,lst(DB,allb)),abvI:$("#f_ai").value.trim(),abvA:$("#f_aa").value.trim(),enc,meses:me,obs:$("#f_o").value.trim(),tosta:$("#f_t").value.trim(),tanoAnt:parseInt($("#f_ta").value)||0,gal:$("#f_g").value.trim(),prat:$("#f_pr").value.trim()};
+  if(ED){const b=get(ED),df=dif(b,dd);Object.assign(b,dd);const cur=Math.max(0,vol(b));if(v!=cur)addM(b,"ajuste",v-cur,"Ajuste manual na edição");if(df.length)addM(b,"estado",0,"Ficha editada — "+df.join("; "))}
+  else{const b={id:uid(),m:[],est:false,man:false,ex:false,...dd};if(v>0)addM(b,"inicial",v,"Saldo inicial",enc||hoje());B.push(b)}
+  save();X();draw();toast("Barril salvo.");
+}
+function loteF(){
+  M("Gerar lote de barris",`<div class="two"><div><label>Prefixo</label><input id="l_p" value="BAR-"></div><div><label>Começar no nº</label><input id="l_i" inputmode="numeric" value="1"></div></div>
+  <label>Quantidade (máx. 500)</label><input id="l_q" inputmode="numeric" value="10">
+  <label>Madeira</label><input id="l_m" list="dm" placeholder="Digite ou escolha">${dl("dm",lst(DM,B.map(x=>x.mad)))}
+  <label>Bebida</label><input id="l_b" list="db" placeholder="Digite ou escolha">${dl("db",lst(DB,B.map(x=>x.beb)))}
+  <div class="two"><div><label>Capacidade (L)</label><input id="l_c" inputmode="decimal" value="200"></div><div><label>Teor (%)</label><input id="l_a" inputmode="decimal"></div></div>
+  <div class="two"><div><label>Data de enchimento</label><input id="f_en" inputmode="numeric" maxlength="10" value="${hoje()}"></div><div><label>Maturação (meses)</label><input id="l_me" inputmode="numeric" value="24"></div></div>
+  <label><input type="checkbox" id="l_ch" checked style="width:auto"> Criar já cheios</label><div class="er" id="f_e"></div><button class="bpr" data-a="oklote">Gerar</button>`);
+}
+function okLote(){
+  const p=$("#l_p").value.trim(),i=parseInt($("#l_i").value),q=parseInt($("#l_q").value),mad=$("#l_m").value.trim(),beb=$("#l_b").value.trim(),cap=toCl($("#l_c").value),enc=$("#f_en").value.trim();
+  if(!(i>=0)||!(q>=1)||q>500)return ER("Informe início e quantidade (1 a 500).");
+  if(!mad)return ER("Informe a madeira.");if(!(cap>0))return ER("Capacidade inválida.");if(pd(enc)===null)return ER("Data inválida. Use DD/MM/AAAA.");
+  const ja=new Set(B.filter(b=>!b.ex).map(b=>b.n.toLowerCase()));let n=0;
+  for(let k=0;k<q;k++){const num=p+(i+k);if(ja.has(num.toLowerCase()))continue;
+    const b={id:uid(),n:num,mad,beb,cap,m:[],abvI:$("#l_a").value.trim(),abvA:$("#l_a").value.trim(),enc,meses:$("#l_me").value.trim(),obs:"",est:false,man:false,ex:false};
+    if($("#l_ch").checked)addM(b,"inicial",cap,"Saldo inicial",enc);B.push(b);n++}
+  save();X();draw();toast(n+" barris criados"+(n<q?", "+(q-n)+" já existiam":"")+".");
+}
+async function hash(s,salt){const k=await crypto.subtle.importKey("raw",new TextEncoder().encode(s),"PBKDF2",false,["deriveBits"]);const b=await crypto.subtle.deriveBits({name:"PBKDF2",salt:new TextEncoder().encode(salt),iterations:100000,hash:"SHA-256"},k,256);return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}
+function askPw(next,msg){
+  NX={next,msg};
+  if(!PW)return M("Criar senha de exclusão",`<p>Crie uma senha própria para excluir barris. Ela será pedida sempre.</p><label>Nova senha (mín. 4)</label><input type="password" id="p1"><label>Repita</label><input type="password" id="p2"><div class="er" id="f_e"></div><button class="bpr" data-a="pwset">Salvar senha</button>`);
+  M("Senha de exclusão",`<p>${msg}</p><label>Senha</label><input type="password" id="p1"><div class="er" id="f_e"></div><button class="bpr pe" data-a="pwok">Confirmar</button>`);
+}
+async function pwSet(){const a=$("#p1").value;if(a.length<4)return ER("Use pelo menos 4 caracteres.");if(a!==$("#p2").value)return ER("As senhas não conferem.");const s=uid();PW={s,h:await hash(a,s)};SV("lb3pw",PW);toast("Senha de exclusão salva.");const f=NX.next;X();f()}
+async function pwOk(){if(await hash($("#p1").value,PW.s)!==PW.h)return ER("Senha incorreta.");const f=NX.next;X();f()}
+function relat(){
+  const g={};let tot=0;
+  B.filter(b=>!b.ex&&!b.est&&vol(b)>0).forEach(b=>{const k=b.beb||"(sem bebida)",v=vol(b),r=g[k]=g[k]||{t:0,n:[],m:{}};r.t+=v;r.n.push(b.n);r.m[b.mad]=(r.m[b.mad]||0)+v;tot+=v});
+  const ks=Object.keys(g).sort((a,b)=>a.localeCompare(b,"pt-BR"));
+  window.RL={g,ks,tot};
+  M("📊 Totais por Bebida",`<div class="rb"><b>Volume geral em maturação: ${L(tot)}</b><br><small>Não conta vazios nem estragados.</small></div>
+  <div style="display:flex;gap:8px;margin-bottom:10px"><button class="bs" data-a="csv">Exportar CSV</button><button class="bs" data-a="cop">Copiar em texto</button></div>
+  ${ks.map(k=>`<div class="rb"><b style="color:var(--mm)">🥃 ${esc(k)} — ${L(g[k].t)}</b> (${g[k].n.length} ${g[k].n.length>1?"barris":"barril"})<br>${Object.keys(g[k].m).map(m=>`<span>${esc(m)}: ${L(g[k].m[m])}</span>`).join(" · ")}<br><small><b>Barris:</b> ${g[k].n.map(esc).join(", ")}</small></div>`).join("")||"<p>Não há líquido armazenado.</p>"}`);
+}
+function bkp(){M("Backup",`<p>Baixe uma cópia de todos os barris (inclui a lixeira) ou restaure de um arquivo.</p><div style="margin:10px 0"><button class="bpr" data-a="bdl">Baixar backup (${B.length} barris)</button></div><label>Restaurar de arquivo</label><input type="file" id="bf" accept=".json,application/json"><div class="er" id="f_e"></div><div id="bq"></div>${LS("lb3pre")?`<div class="rb" style="margin-top:10px">Há uma cópia de antes da última restauração (${fd(LS("lb3pre").em)}).<br><button class="bs" data-a="undo" style="margin-top:6px">Desfazer última restauração</button></div>`:""}`)}
+async function dlf(nome,txt,mime){
+  if(window.claude&&window.claude.use){
+    const c=await window.claude.use("downloads");
+    if(!c)return toast("Salvar arquivos não está disponível aqui.");
+    try{await c.save({filename:nome,data:txt});toast("Arquivo salvo.")}catch(e){if(!e||e.code!="declined")toast("Não foi possível salvar o arquivo.")}
+    return;
+  }
+  const u=URL.createObjectURL(new Blob([txt],{type:mime})),a=document.createElement("a");a.href=u;a.download=nome;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(u);toast("Arquivo baixado.");
+}
+function lix(){const l=B.filter(b=>b.ex);M("Lixeira",`<small style="color:#777">Ficam 30 dias e depois são apagados.</small>${l.map(b=>`<div class="rb"><b>${esc(b.n)} — ${esc(b.mad)}</b><br>${esc(b.beb||"vazio")} · ${L(Math.max(0,vol(b)))}<br><small>Excluído em ${fd(b.exTs)}${b.exBy?" por "+esc(b.exBy):""}</small><div style="margin-top:6px"><button class="bs" data-a="rest" data-id="${b.id}">Restaurar</button> <button class="bs" data-a="apg" data-id="${b.id}" style="color:var(--ve)">Apagar de vez</button></div></div>`).join("")||"<p style='margin-top:10px'>A lixeira está vazia.</p>"}`)}
+const CAMPOS=[["n","Número"],["mad","Madeira"],["beb","Bebida"],["cap","Capacidade",L],["abvI","Teor inicial"],["abvA","Teor atual"],["enc","Enchimento"],["meses","Maturação (meses)"],["tosta","Tosta"],["tanoAnt","Tanoeiro (vezes antes)"],["gal","Galpão"],["prat","Prateleira"],["obs","Obs."]];
+const dif=(o,n)=>CAMPOS.filter(([k])=>String(o[k]==null?"":o[k])!==String(n[k]==null?"":n[k])).map(([k,r,f])=>`${r}: ${f?f(o[k]):(o[k]||"—")} → ${f?f(n[k]):(n[k]||"—")}`);
+function prevBkp(txt){
+  let d;try{d=JSON.parse(txt)}catch(e){$("#bq").innerHTML="";return ER("Arquivo inválido: não é um backup legível.")}
+  if(!d||!Array.isArray(d.barris)){$("#bq").innerHTML="";return ER("Arquivo inválido: não tem lista de barris.")}
+  const er=[],ids=new Set(),nums=new Set();
+  d.barris.forEach((b,i)=>{const r="Barril "+(b&&b.n?b.n:"nº "+(i+1))+": ";
+    if(!b||typeof b!="object"){er.push(r+"registro inválido.");return}
+    if(!/^[\w-]{1,60}$/.test(b.id||""))er.push(r+"código inválido.");else if(ids.has(b.id))er.push(r+"código repetido no arquivo.");else ids.add(b.id);
+    if(!String(b.n||"").trim())er.push(r+"sem número.");
+    if(!(b.cap>0))er.push(r+"capacidade inválida.");
+    if(!Array.isArray(b.m))er.push(r+"sem caderno.");
+    else if(b.m.some(m=>!m||!TIPOS.includes(m.t)||!Number.isFinite(m.dl)))er.push(r+"lançamento inválido no caderno.");
+    if(!b.ex){const k=String(b.n).toLowerCase();if(nums.has(k))er.push(r+"número repetido no arquivo.");nums.add(k)}});
+  if(er.length){$("#bq").innerHTML="";return ER("Arquivo recusado ("+er.length+" problema"+(er.length>1?"s":"")+"): "+er.slice(0,4).join(" "))}
+  let nv=0,sb=0;const ok=[],cf=[];
+  d.barris.forEach(b=>{const x=B.find(y=>y.id==b.id);
+    if(!b.ex&&B.some(y=>!y.ex&&y.id!=b.id&&String(y.n).toLowerCase()==String(b.n).toLowerCase())){cf.push(b.n);return}
+    b.est=!!b.est;b.man=!!b.man;b.ex=!!b.ex;if(x)sb++;else nv++;ok.push(b)});
+  window.BP=ok;window.BE=Array.isArray(d.estoque)?d.estoque.filter(e=>e&&/^[\w-]{1,80}$/.test(e.id||"")&&e.ml>0&&Array.isArray(e.m)&&e.m.every(m=>m&&Number.isFinite(m.dl))):[];ER("");
+  $("#bq").innerHTML=`<div class="rb">Arquivo válido: <b>${nv}</b> barris novos, <b>${sb}</b> substituídos${cf.length?`, <b style="color:var(--ve)">${cf.length} ignorados</b> por número já usado por outro barril (${cf.slice(0,6).map(esc).join(", ")})`:""}.<br><small>Uma cópia do estado atual é guardada antes de restaurar.</small>${ok.length?`<br><button class="bpr pe" style="margin-top:8px" data-a="brs">Restaurar ${ok.length} barris</button>`:""}</div>`;
+}
+function tanF(id){const b=get(id);window.TN=id;M("Tanoeiro / reforma — "+esc(b.n),`<label>Data (DD/MM/AAAA)</label><input id="f_d" inputmode="numeric" maxlength="10" value="${hoje()}"><label>Serviço</label><input id="f_s" list="ds" placeholder="Ex.: Reforma, Retosta">${dl("ds",["Reforma","Raspagem","Retosta","Troca de aduelas","Troca de tampo","Reaperto de arcos"])}<label>Tanoeiro / oficina (opcional)</label><input id="f_of"><label>Nova tosta (opcional)</label><input id="f_t2" list="dt2" placeholder="1, 2, 3 ou 4">${dl("dt2",["1","2","3","4"])}<label>Observação</label><input id="f_o"><div class="er" id="f_e"></div><button class="bpr" data-a="oktan">Registrar</button>`)}
+function okTan(){const b=get(window.TN),d=$("#f_d").value,s=$("#f_s").value.trim();if(pd(d)===null)return ER("Data inválida. Use DD/MM/AAAA.");if(!s)return ER("Informe o serviço.");const of=$("#f_of").value.trim(),t=$("#f_t2").value.trim(),o=$("#f_o").value.trim();addM(b,"tanoeiro",0,s+(of?" em "+of:"")+(t?" · nova tosta "+t:"")+(o?" · "+o:""),d);if(t)b.tosta=t;save();X();draw();toast("Tanoeiro registrado.")}
+const SV2=()=>SV("lb3e",E);
+const sid=(p,ml)=>"e_"+p.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"_").replace(/^_|_$/g,"").slice(0,40)+"_"+ml;
+const qtd=e=>e.m.reduce((s,x)=>s+x.dl,0);
+function opF(id,t){
+  const b=get(id);window.OPX={id,t};const v=Math.max(0,vol(b));
+  const T={eng:"Engarrafar",afe:"Aferir nível",teo:"Teor alcoólico"}[t];
+  const dt=`<label>Data (DD/MM/AAAA)</label><input id="f_d" inputmode="numeric" maxlength="10" value="${hoje()}">`;
+  let c="";
+  if(t=="afe")c=`<p class="rb">Saldo no app: <b>${L(v)}</b>. A diferença para menos vira perda por evaporação.</p><label>Volume medido agora (L)</label><input id="f_l" inputmode="decimal">`;
+  if(t=="teo")c=`<label>Teor alcoólico medido (% vol.)</label><input id="f_l" inputmode="decimal" value="${esc(b.abvA||"")}" placeholder="Ex.: 63,5">`;
+  if(t=="eng")c=`<p class="rb">Saldo do barril: <b>${L(v)}</b></p><label>Produto / rótulo</label><input id="f_p" value="${esc(b.beb)}"><div class="two"><div><label>Nº de garrafas</label><input id="f_g" inputmode="numeric"></div><div><label>ml por garrafa</label><input id="f_ml" inputmode="numeric" value="750"></div></div>`;
+  M(T+" — "+esc(b.n),dt+c+`<label>Observação (opcional)</label><input id="f_o"><div class="er" id="f_e"></div><button class="bpr" data-a="okop">Confirmar</button>`);
+}
+function okOp(){
+  const {id,t}=window.OPX,b=get(id),d=$("#f_d").value,v=Math.max(0,vol(b)),o=$("#f_o").value.trim();
+  if(pd(d)===null)return ER("Data inválida. Use DD/MM/AAAA.");
+  if(t=="teo"){const a=parseFloat($("#f_l").value.replace(",","."));if(!(a>0&&a<=100))return ER("Informe o teor entre 0 e 100 (%).");addM(b,"teor",0,a+"%"+(o?" · "+o:""),d);b.abvA=String(a);if(!b.abvI)b.abvI=String(a)}
+  else if(t=="afe"){const c=toCl($("#f_l").value);if(!(c>=0))return ER("Informe o volume medido, em litros.");if(c>b.cap)return ER("Maior que a capacidade do barril.");const dl=c-v;if(dl==0)return ER("Igual ao saldo: não houve perda.");addM(b,dl<0?"perda":"ajuste",dl,(dl<0?"Aferição de nível: evaporação":"Aferição de nível: ajuste para mais")+(o?" · "+o:""),d)}
+  else{const g=parseInt($("#f_g").value),ml=parseInt($("#f_ml").value),p=$("#f_p").value.trim();if(!(g>=1))return ER("Informe o número de garrafas.");if(!(ml>0))return ER("Informe os ml por garrafa.");if(!p)return ER("Informe o produto.");const c=Math.round(g*ml/10);if(c>v)return ER("Engarrafar "+L(c)+" passa do saldo ("+L(v)+").");addM(b,"engarrafamento",-c,g+" garrafas de "+ml+" ml · "+p+(o?" · "+o:""),d);
+    const k=sid(p,ml);let e=E.find(x=>x.id==k);if(!e){e={id:k,produto:p,ml,m:[]};E.push(e)}e.m.push({id:uid(),d,ts:pd(d),dl:g,o:"Engarrafamento do barril "+b.n,p:OP,em:Date.now()});SV2()}
+  save();X();draw();toast("Lançado.");
+}
+function estF(id){
+  const e=id?E.find(x=>x.id==id):null;
+  if(!e)return M("Estoque de garrafas",`<small style="color:#777">As garrafas entram aqui quando você usa “Engarrafar” em um barril.</small>${E.map(x=>`<div class="rb" data-a="estsel" data-id="${x.id}" style="cursor:pointer;display:flex;justify-content:space-between;margin-top:8px"><span><b>${esc(x.produto)}</b><br><small>${x.ml} ml · ≈ ${L(qtd(x)*x.ml/10)}</small></span><b style="font-size:20px">${qtd(x)}</b></div>`).join("")||"<p style='margin-top:10px'>Nenhuma garrafa em estoque ainda.</p>"}`);
+  window.ES=id;
+  M(esc(e.produto),`<p><b style="font-size:24px">${qtd(e)}</b> garrafas de ${e.ml} ml</p><div class="rb"><div class="two"><div><label>Data</label><input id="f_d" inputmode="numeric" maxlength="10" value="${hoje()}"></div><div><label>Garrafas</label><input id="f_q" inputmode="numeric"></div></div><label>Tipo</label><select id="f_tp"><option value="s">Saída (venda/perda)</option><option value="e">Entrada manual</option></select><label>Observação</label><input id="f_o"><div class="er" id="f_e"></div><button class="bpr" data-a="estlan">Lançar</button></div>${[...e.m].sort((a,b)=>(b.ts||0)-(a.ts||0)||b.em-a.em).map(m=>`<div class="ci"><b>${esc(m.d)}</b> — <b style="color:${m.dl>0?"var(--vd)":"var(--ve)"}">${m.dl>0?"+":"−"}${Math.abs(m.dl)}</b> ${esc(m.o||"")} <small style="color:#888">(${esc(m.p||"—")})</small></div>`).join("")}<button class="bs" data-a="estq" style="margin-top:10px">← Lista de produtos</button>`);
+}
+function estLan(){const e=E.find(x=>x.id==window.ES),d=$("#f_d").value,n=parseInt($("#f_q").value),s=$("#f_tp").value=="s";if(pd(d)===null)return ER("Data inválida. Use DD/MM/AAAA.");if(!(n>=1))return ER("Informe a quantidade de garrafas.");if(s&&n>qtd(e))return ER("Só há "+qtd(e)+" garrafas em estoque.");e.m.push({id:uid(),d,ts:pd(d),dl:s?-n:n,o:$("#f_o").value.trim(),p:OP,em:Date.now()});SV2();estF(e.id);toast("Estoque atualizado.")}
+function contF(){M("Movimentação do período",`<small style="color:#777">Relatório gerencial de apoio à contabilidade. Não substitui declarações e livros fiscais exigidos por lei: confirme com o seu contador.</small><div class="two"><div><label>De</label><input id="f_d" inputmode="numeric" maxlength="10" value="01/01/${new Date().getFullYear()}"></div><div><label>Até</label><input id="f_en" inputmode="numeric" maxlength="10" value="${hoje()}"></div></div><div class="er" id="f_e"></div><button class="bpr" data-a="gcont">Gerar relatório</button><div id="cr"></div>`)}
+function gCont(){
+  const i=pd($("#f_d").value),f0=pd($("#f_en").value);if(i===null||f0===null)return ER("Datas inválidas. Use DD/MM/AAAA.");const f=f0+86399999;if(f<i)return ER("A data final deve ser depois da inicial.");ER("");
+  const g={};B.filter(b=>!b.ex).forEach(b=>{const k=b.beb||"(sem bebida)",r=g[k]=g[k]||{b:k,i:0,en:0,sa:0,eg:0,pe:0,aj:0,fm:0,lap:0};let bf=0;
+    b.m.forEach(m=>{const t=m.ts||0,d=m.dl||0;if(t<i)r.i+=d;if(t<=f)bf+=d;if(t>=i&&t<=f){if(m.t=="inicial"||m.t=="entrada")r.en+=d;else if(m.t=="saida"||m.t=="zerou")r.sa-=d;else if(m.t=="engarrafamento")r.eg-=d;else if(m.t=="perda")r.pe-=d;else if(m.t=="ajuste")r.aj+=d}});
+    r.fm+=bf;if(+b.abvA>0)r.lap+=bf/100*b.abvA/100});
+  const ln=Object.values(g).filter(r=>r.i||r.en||r.sa||r.eg||r.pe||r.aj||r.fm).sort((a,b)=>a.b.localeCompare(b.b,"pt-BR"));
+  const ga=E.map(e=>{let a=0,en=0,sa=0,fm=0;e.m.forEach(m=>{const t=m.ts||0;if(t<i)a+=m.dl;if(t<=f)fm+=m.dl;if(t>=i&&t<=f){if(m.dl>0)en+=m.dl;else sa-=m.dl}});return{p:e.produto+" ("+e.ml+" ml)",a,en,sa,fm}}).filter(x=>x.a||x.en||x.sa||x.fm);
+  window.CR={ln,ga,i:$("#f_d").value,f:$("#f_en").value};
+  $("#cr").innerHTML=`<div style="display:flex;gap:8px;margin:10px 0"><button class="bs" data-a="ccsv">Exportar CSV</button><button class="bs" data-a="ccop">Copiar em texto</button></div>`+(ln.map(r=>`<div class="rb"><b style="color:var(--mm)">${esc(r.b)}</b><br>Inicial: ${L(r.i)} · Entradas: ${L(r.en)} · Saídas: ${L(r.sa)}<br>Engarrafado: ${L(r.eg)} · Perdas: ${L(r.pe)} · Ajustes: ${L(r.aj)}<br><b>Final: ${L(r.fm)}</b>${r.lap>0?" · Álcool puro: "+r.lap.toLocaleString("pt-BR",{maximumFractionDigits:2})+" L":""}</div>`).join("")||"<p>Sem movimentações no período.</p>")+(ga.length?`<div class="rb"><b style="color:var(--mm)">Garrafas</b>${ga.map(x=>`<br>${esc(x.p)}: inicial ${x.a} · entradas ${x.en} · saídas ${x.sa} · <b>final ${x.fm}</b>`).join("")}</div>`:"");
+}
+function cCsv(){const {ln,ga,i,f}=window.CR,n=c=>String(c/100).replace(".",","),r=[["Bebida","Saldo inicial (L)","Entradas (L)","Saidas (L)","Engarrafado (L)","Perdas evaporacao (L)","Ajustes (L)","Saldo final (L)","Alcool puro final (L)"]];ln.forEach(x=>r.push([x.b,n(x.i),n(x.en),n(x.sa),n(x.eg),n(x.pe),n(x.aj),n(x.fm),String(Math.round(x.lap*100)/100).replace(".",",")]));if(ga.length){r.push([],["Produto (garrafas)","Inicial","Entradas","Saidas","Final"]);ga.forEach(x=>r.push([x.p,x.a,x.en,x.sa,x.fm]))}dlf("movimentacao-"+i.replace(/\//g,"-")+"_a_"+f.replace(/\//g,"-")+".csv","\uFEFF"+r.map(l=>l.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(";")).join("\r\n"),"text/csv;charset=utf-8")}
+async function cCop(){const {ln,ga,i,f}=window.CR,tx="MOVIMENTAÇÃO DE "+i+" A "+f+" (litros)\n\n"+ln.map(x=>x.b+"\n  Inicial "+L(x.i)+" | Entradas "+L(x.en)+" | Saídas "+L(x.sa)+" | Engarrafado "+L(x.eg)+" | Perdas "+L(x.pe)+" | Ajustes "+L(x.aj)+" | Final "+L(x.fm)).join("\n\n")+(ga.length?"\n\nGARRAFAS\n"+ga.map(x=>x.p+": inicial "+x.a+" | entradas "+x.en+" | saídas "+x.sa+" | final "+x.fm).join("\n"):"");try{await navigator.clipboard.writeText(tx);toast("Relatório copiado.")}catch(e){toast("Não foi possível copiar.")}}
+function quem(){M("Quem está usando?",`<p>Seu nome ou e-mail fica registrado em cada lançamento.</p><label>Nome / e-mail</label><input id="f_q" value="${esc(OP)}"><div class="er" id="f_e"></div><button class="bpr" data-a="okq">Continuar</button>`,!OP)}
+document.addEventListener("click",e=>{
+  const t=e.target.closest("[data-a]");if(!t){if(e.target.closest("#op"))quem();return}
+  const a=t.dataset.a,id=t.dataset.id;
+  if(a=="bg"){if(e.target===t&&OP)X();return}
+  const R={
+    x:X,novo:()=>barF(),lote:loteF,rel:relat,bkp,lix,fpro:()=>{$("#fs").value="Pronto";draw()},
+    mov:()=>movF(id,t.dataset.t),okmov:okMov,tan:()=>tanF(id),oktan:okTan,op:()=>opF(id,t.dataset.t),okop:okOp,estq:()=>estF(),estsel:()=>estF(id),estlan:estLan,cont:contF,gcont:gCont,ccsv:cCsv,ccop:cCop,man:()=>flag(id,"man","Colocado em MANUTENÇÃO","Saiu da manutenção"),est:()=>flag(id,"est","Marcado como ESTRAGADO","Marca de estragado removida"),
+    edit:()=>barF(id),oked:okEd,oklote:okLote,pwset:pwSet,pwok:pwOk,
+    del:()=>{const b=get(id);askPw(()=>{b.ex=true;b.exTs=Date.now();b.exBy=OP;save();draw();toast("Barril "+b.n+" movido para a lixeira.")},"Mover o barril "+esc(b.n)+" para a lixeira? Dá para restaurar por 30 dias.")},
+    rest:()=>{const b=get(id);if(B.some(x=>!x.ex&&x.n==b.n))return toast("Já existe um barril "+b.n+" ativo.");b.ex=false;save();draw();lix();toast("Barril restaurado.")},
+    apg:()=>{const b=get(id);askPw(()=>{B=B.filter(x=>x.id!=id);save();draw();lix();toast("Apagado definitivamente.")},"Apagar DEFINITIVAMENTE o barril "+esc(b.n)+"? Não dá para recuperar.")},
+    okq:()=>{const v=$("#f_q").value.trim();if(!v)return ER("Informe seu nome ou e-mail.");OP=v;SV("lb3op",OP);X();draw()},
+    bdl:()=>{dlf("backup-barris-lamas-"+hoje().replace(/\//g,"-")+".json",JSON.stringify({app:"controle-lamas",barris:B,estoque:E},null,1),"application/json")},
+    brs:()=>{const d=window.BP;SV("lb3pre",{em:Date.now(),barris:B,estoque:E});d.forEach(n=>{const i=B.findIndex(x=>x.id==n.id);if(i>-1)B[i]=n;else B.push(n)});(window.BE||[]).forEach(n=>{const i=E.findIndex(x=>x.id==n.id);if(i>-1)E[i]=n;else E.push(n)});SV2();save();X();draw();toast(d.length+" barris restaurados. A cópia anterior foi guardada.")},undo:()=>{const p=LS("lb3pre");if(!p)return;B=p.barris;E=p.estoque||E;SV2();save();try{localStorage.removeItem("lb3pre")}catch(e){}X();draw();toast("Restauração desfeita.")},
+    csv:()=>{const {g,ks}=window.RL,f=n=>String(n/100).replace(".",","),r=[["Bebida","Madeira","Volume (L)","Barris"]];ks.forEach(k=>Object.keys(g[k].m).forEach(m=>r.push([k,m,f(g[k].m[m]),g[k].n.join(" ")])));dlf("totais-por-bebida.csv","\uFEFF"+r.map(l=>l.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(";")).join("\r\n"),"text/csv;charset=utf-8")},
+    cop:async()=>{const {g,ks,tot}=window.RL,tx="TOTAIS POR BEBIDA ("+hoje()+")\n\n"+ks.map(k=>k+" — "+L(g[k].t)+"\n  Barris: "+g[k].n.join(", ")).join("\n\n")+"\n\nTOTAL: "+L(tot);try{await navigator.clipboard.writeText(tx);toast("Tabela copiada.")}catch(er){toast("Não foi possível copiar.")}}
+  };
+  if(R[a])R[a]();
+});
+document.addEventListener("input",e=>{const i=e.target.id;if(i=="f_d"||i=="f_en")e.target.value=mask(e.target.value);if(["q","fb","fm","fs"].includes(i))draw()});
+document.addEventListener("change",e=>{if(e.target.id!="bf")return;const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>prevBkp(r.result);r.readAsText(f)});
+document.addEventListener("keydown",e=>{if(e.key=="Escape"&&OP)X()});
+draw();if(!OP)quem();
+</script>
+</body>
+</html>
